@@ -1,17 +1,16 @@
 /**
  * Created by http://rhizomik.net/~roberto/
  */
-
+//'ngResource', 'ngMessages', 'ui.router', 'mgcrea.ngStrap',
 (function(){
-    var app = angular.module('actesJS',  ['ui.router','satellizer','acteTab','signup']);
+    var app = angular.module('actesJS',  ['ngResource','mgcrea.ngStrap','ngMessages','ui.router','satellizer','acteTab']);
 
     app.controller("ActesController", ["$http",
-        function($http) {
+        function($http,$alert) {
             this.GREETINGS_API = "http://sportsbarcelona.herokuapp.com/";//"http://127.0.0.1:8080/";
             this.newActe = {'start_time': Date.now()};
             this.loading = false;
             var acteCtrl = this;
-
             this.isLoading = function(){
                 return this.loading;
             };
@@ -22,7 +21,11 @@
 
             this.listActes = function(){
                 this.loading = true;
-                $http.get(this.GREETINGS_API)
+                $http.get(this.GREETINGS_API,{
+                    headers: {
+                        'Access-Control-Request-Headers': 'X-Auth'
+                    }
+                })
                     .success(function (data) {
                         acteCtrl.actes = data;
                     });
@@ -37,13 +40,14 @@
             };
         }]);
 
-    app.controller('LoginCtrl', function($scope, $auth) {
+    app.controller('Login', function($scope, $auth) {
 
         $scope.isAuthenticated = function() {
             return $auth.isAuthenticated();
         };
         $scope.authenticate = function(provider) {
             $auth.authenticate(provider).then(function(response) {
+                console.log(response.data.token.email);
                 alert('Signed In.');
             });
 
@@ -58,6 +62,7 @@
                 });
 
         }
+
     });
     app.controller('LogoutCtrl', function($auth, $alert) {
 
@@ -74,11 +79,20 @@
                 });
             });
     });
-    app.config(function($urlRouterProvider,$stateProvider,$authProvider) {
+    app.config(function($urlRouterProvider,$stateProvider,$authProvider,$httpProvider) {
+
         $stateProvider
             .state('home', {
                 url: '/',
-                templateUrl: 'index.html'
+                templateUrl: 'partials/home.html'
+            }).state('signup', {
+                url: '/signup',
+                templateUrl: 'partials/signup.html',
+                controller: 'SignupCtrl'
+            }).state('login', {
+                url: '/login',
+                templateUrl: 'partials/login.html',
+                controller: 'LoginCtrl'
             })
             .state('profile', {
                 url: '/profile',
@@ -133,6 +147,7 @@
     app.factory('Account', function($http) {
         return {
             getProfile: function() {
+                user = $http.get('/api/me');
                 return $http.get('/api/me');
             },
             updateProfile: function(profileData) {
@@ -169,12 +184,12 @@
                 displayName: $scope.user.displayName,
                 email: $scope.user.email
             }).then(function() {
-                $alert({
+                /*$alert({
                     content: 'Profile has been updated',
                     animation: 'fadeZoomFadeDown',
                     type: 'material',
                     duration: 3
-                });
+                });*/
             });
         };
 
@@ -184,7 +199,7 @@
         $scope.link = function(provider) {
             $auth.link(provider)
                 .then(function() {
-                    $alert({
+                   $alert({
                         content: 'You have successfully linked ' + provider + ' account',
                         animation: 'fadeZoomFadeDown',
                         type: 'material',
@@ -195,6 +210,7 @@
                     $scope.getProfile();
                 })
                 .catch(function(response) {
+                    console.log(response.data.message);
                     $alert({
                         content: response.data.message,
                         animation: 'fadeZoomFadeDown',
@@ -232,5 +248,72 @@
 
         $scope.getProfile();
 
+    });
+    app.controller('SignupCtrl', function($scope, $alert, $auth) {
+        $scope.signup = function() {
+            $auth.signup({
+                displayName: $scope.displayName,
+                email: $scope.email,
+                password: $scope.password
+            }).catch(function(response) {
+                if (typeof response.data.message === 'object') {
+                    angular.forEach(response.data.message, function(message) {
+                        $alert({
+                            content: message[0],
+                            animation: 'fadeZoomFadeDown',
+                            type: 'material',
+                            duration: 3
+                        });
+                    });
+                } else {
+                    $alert({
+                        content: response.data.message,
+                        animation: 'fadeZoomFadeDown',
+                        type: 'material',
+                        duration: 3
+                    });
+                }
+            });
+        };
+    });
+    app.controller('LoginCtrl', function($scope, $alert, $auth) {
+        $scope.login = function() {
+            $auth.login({ email: $scope.email, password: $scope.password })
+                .then(function() {
+                    $alert({
+                        content: 'You have successfully logged in',
+                        animation: 'fadeZoomFadeDown',
+                        type: 'material',
+                        duration: 3
+                    });
+                })
+                .catch(function(response) {
+                    $alert({
+                        content: response.data.message,
+                        animation: 'fadeZoomFadeDown',
+                        type: 'material',
+                        duration: 3
+                    });
+                });
+        };
+        $scope.authenticate = function(provider) {
+            $auth.authenticate(provider)
+                .then(function() {
+                    $alert({
+                        content: 'You have successfully logged in',
+                        animation: 'fadeZoomFadeDown',
+                        type: 'material',
+                        duration: 3
+                    });
+                })
+                .catch(function(response) {
+                    $alert({
+                        content: response.data.message,
+                        animation: 'fadeZoomFadeDown',
+                        type: 'material',
+                        duration: 3
+                    });
+                });
+        };
     });
 }());

@@ -14,9 +14,14 @@
     <script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js"></script>
     <script src="app.js"></script>
     <script src="acte-tab/acte-tab.js"></script>
-    <script src="partials/signup.js"></script>
-    <!-- angular-google-maps -->
-    <!-- Google Maps Javascript API -->
+
+    <!-- Third-party Libraries -->
+    <script src="vendor/angular-messages.js"></script>
+    <script src="vendor/angular-resource.js"></script>
+    <script src="vendor/angular-animate.js"></script>
+    <script src="vendor/angular-ui-router.js"></script>
+    <script src="vendor/angular-strap.js"></script>
+    <script src="vendor/angular-strap.tpl.js"></script>
 
 </head>
 <body>
@@ -31,15 +36,17 @@
                 </button>
                 <a class="navbar-brand" href="#">Actes</a>
             </div>
-            <div id="navbar" class="collapse navbar-collapse" ng-controller="LoginCtrl">
+            <div id="navbar" class="collapse navbar-collapse" ng-controller="Login">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
+                    <li ng-if="isAuthenticated()"><a href="/#/profile">Profile</a></li>
                 </ul>
                 <!-- Template -->
                 <ul class="nav navbar-nav pull-right" ng-if="!isAuthenticated()">
-                    <li><button ng-click="authenticate('google')">Sign in with Google</button></li>
+                    <li><a href="/#/login">Login</a></li>
+                    <li><a href="/#/signup">Sign up</a></li>
                 </ul>
                 <ul class="nav navbar-nav pull-right" ng-if="isAuthenticated()">
                     <li><button ng-click="logout()">Logout</button></li>
@@ -47,23 +54,11 @@
             </div><!--/.nav-collapse -->
         </div>
     </nav>
+    <div ui-view class="fadeZoom"></div>
 
-    <div class="container" ng-controller="ActesController as controller">
-        <header>
-            <h1 class="text-center">Actes Barcelona</h1>
-            <h3>&nbsp;</h3>
-        </header>
-
-        <div class="text-center" ng-show="controller.noActes()">
-            <button class="btn btn-lg btn-primary" ng-click="controller.listActes()">
-                <span ng-show="!controller.isLoading()">Veure Actes</span>
-                <span ng-show="controller.isLoading()"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</span>
-            </button>
-        </div>
-        <div ng-repeat="acte in controller.actes">
-            <acte-tab></acte-tab>
-        </div>
-    </div><!-- /.container -->
+    <div class="container" ng-controller="ProfileCtrl">
+        {{user.email}}
+    </div>
 
 </body>
 </html>
