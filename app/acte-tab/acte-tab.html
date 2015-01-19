@@ -1,0 +1,14 @@
+<h3>Acte #{{acte.id}}: {{acte.name | limitTo:10}}...</h3>
+<section class="tab">
+    <ul class="nav nav-tabs">
+        <li ng-class="{active: tab.isSet(1)}">
+            <a href ng-click="tab.setTab(1)">Content</a></li>
+        <li ng-class="{active: tab.isSet(2)}">
+            <a href ng-click="tab.setTab(2)">Author</a></li>
+    </ul>
+    <div class="tab-content" ng-show="tab.isSet(1)">
+        <blockquote>{{acte.init_date | date}}</blockquote>
+        <blockquote>{{acte.localization | date}}</blockquote>
+    </div>
+
+</section>
