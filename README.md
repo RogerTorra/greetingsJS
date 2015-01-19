@@ -1,7 +1,8 @@
-GreetingsJS
+[![Code Climate](https://codeclimate.com/github/RogerTorra/greetingsJS/badges/gpa.svg)](https://codeclimate.com/github/RogerTorra/greetingsJS)
+Activities agenda JS client
 ============
 
-Simple AngularJS client for the GreetingsApp, a Spring web application providing a RESTFul JSON API consumed by this client. The GreetingsApp is available from [https://github.com/rogargon/greetingsApp](https://github.com/rogargon/greetingsApp)
+Simple AngularJS client for the Activities agenda, a Spring web application providing a RESTFul JSON API consumed by this client. The Activities agenda is available from [https://github.com// RogerTorra/springmvc-html](https://github.com// RogerTorra/springmvc-html)
 
 To run locally, you need first node.js and its package manager (npm) installed.  You can get them from [http://nodejs.org/](http://nodejs.org/).
 
