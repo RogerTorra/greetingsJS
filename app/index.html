@@ -8,11 +8,13 @@
     <title>Actes Barcelona</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="app.css"/>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular.min.js"></script>
     <script src="//cdn.jsdelivr.net/satellizer/0.8.8/satellizer.min.js"></script>
+    <script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js"></script>
     <script src="app.js"></script>
-    <script src="libs/http-auth-interceptor.js"></script>
     <script src="acte-tab/acte-tab.js"></script>
+    <script src="partials/signup.js"></script>
     <!-- angular-google-maps -->
     <!-- Google Maps Javascript API -->
 
@@ -38,10 +40,9 @@
                 <!-- Template -->
                 <ul class="nav navbar-nav pull-right" ng-if="!isAuthenticated()">
                     <li><button ng-click="authenticate('google')">Sign in with Google</button></li>
-                    <li><button ng-click="authenticate('twitter')">Sign in with Twitter</button></li>
                 </ul>
                 <ul class="nav navbar-nav pull-right" ng-if="isAuthenticated()">
-                    <li><a href="/#/logout">Logout</a></li>
+                    <li><button ng-click="logout()">Logout</button></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
@@ -59,12 +60,8 @@
                 <span ng-show="controller.isLoading()"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</span>
             </button>
         </div>
-        <div class="text-center">
-
-        </div>
         <div ng-repeat="acte in controller.actes">
             <acte-tab></acte-tab>
-            <blockquote>{{acte.name }} {{acte.localization }}</blockquote>
         </div>
     </div><!-- /.container -->
 

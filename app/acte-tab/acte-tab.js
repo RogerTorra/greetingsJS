@@ -14,6 +14,7 @@
 
                 this.setTab = function (newValue) {
                     this.tab = newValue;
+                    if(this.tab==2){google.maps.event.addDomListener(window, 'load', initialize);}
                 };
 
                 this.isSet = function (tabName) {
