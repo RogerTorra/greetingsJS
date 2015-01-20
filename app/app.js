@@ -6,8 +6,10 @@
         function($http,$alert) {
             this.GREETINGS_API = "http://sportsbarcelona.herokuapp.com";//"http://127.0.0.1:8080/";
             this.newActe = {'start_time': Date.now()};
+			this.newActe = {'data': Date.now()};
             this.loading = false;
             var acteCtrl = this;
+			var favCtrl = this;
             this.isLoading = function(){
                 return this.loading;
             };
@@ -24,13 +26,18 @@
                     });
             };
 
-            this.addGreeting = function(){
-                $http.post(this.GREETINGS_API, this.newGreeting)
+            this.addFavorite = function(id){
+				var email ;
+				$http.get("/user").success(function (data) {
+                        email = data.user.email;
+                    });		
+				console.log({'user':email,'idacte':id,'data':Date.now()});
+                $http.post(this.GREETINGS_API+"/favorite", {'user':email,'idacte':id,'data':Date.now()})
                     .then(function(){
-                        greetingCtrl.newGreeting = {'date': Date.now()};
-                        greetingCtrl.listGreetings();
+                       alert("ok");
                     });
             };
+			
         }]);
 
     app.controller('Login', function($scope, $auth) {
