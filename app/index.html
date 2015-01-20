@@ -8,13 +8,18 @@
     <title>Actes Barcelona</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="app.css"/>
+	<!-- Angulars Material CSS now available via Google CDN; version 0.6 used here -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/0.6.1/angular-material.min.css">
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.1/angular.min.js"></script>
     <script src="//cdn.jsdelivr.net/satellizer/0.8.8/satellizer.min.js"></script>
     <script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.min.js"></script>
     <script src="app.js"></script>
     <script src="acte-tab/acte-tab.js"></script>
-
+	<!-- Angular Material Javascript now available via Google CDN; version 0.6 used here -->
+    <script src="//ajax.googleapis.com/ajax/libs/angular_material/0.6.1/angular-material.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-aria.min.js"></script>
     <!-- Third-party Libraries -->
     <script src="vendor/angular-messages.js"></script>
     <script src="vendor/angular-resource.js"></script>
@@ -56,9 +61,7 @@
     </nav>
     <div ui-view class="fadeZoom"></div>
 
-    <div class="container" ng-controller="ProfileCtrl">
-        {{user.email}}
-    </div>
+
 
 </body>
 </html>
