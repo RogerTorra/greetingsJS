@@ -64,11 +64,11 @@ app.set('port', process.env.PORT || 8000);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
-});
+});*/
 // Force HTTPS on Heroku
 if (app.get('env') === 'production') {
     app.use(function(req, res, next) {
@@ -717,7 +717,14 @@ app.post('/auth/foursquare', function(req, res) {
     });
 });
 
-
+app.get('/user', ensureAuthenticated, function(req, res) {
+    User.findById(req.user, function(err, user) {
+        if (!user) {
+            return res.status(400).send({ message: 'User not found' });
+        }
+        res.send({ user: user });
+    });
+});
 /*
  |--------------------------------------------------------------------------
  | Unlink Provider
