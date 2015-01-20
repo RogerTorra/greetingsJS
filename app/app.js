@@ -1,13 +1,10 @@
-/**
- * Created by http://rhizomik.net/~roberto/
- */
-//'ngResource', 'ngMessages', 'ui.router', 'mgcrea.ngStrap',
+
 (function(){
     var app = angular.module('actesJS',  ['ngResource','mgcrea.ngStrap','ngMessages','ui.router','satellizer','acteTab']);
 
     app.controller("ActesController", ["$http",
         function($http,$alert) {
-            this.GREETINGS_API = "http://sportsbarcelona.herokuapp.com/";//"http://127.0.0.1:8080/";
+            this.GREETINGS_API = "http://sportsbarcelona.herokuapp.com";//"http://127.0.0.1:8080/";
             this.newActe = {'start_time': Date.now()};
             this.loading = false;
             var acteCtrl = this;
@@ -18,14 +15,10 @@
             this.noActes = function(){
                 return this.actes === undefined;
             }
-/*XMLHttpRequest cannot load http://sportsbarcelona.herokuapp.com/. 
-The request was redirected to 'http://sportsbarcelona.herokuapp.com/actes',
-which is disallowed for cross-origin requests that require preflight.*/
+
             this.listActes = function(){
                 this.loading = true;
-                $http.get(this.GREETINGS_API,{
-                    headers: {'X-Requested-With': 'XMLHttpRequest'}
-                })
+                $http.get(this.GREETINGS_API+"/actes")
                     .success(function (data) {
                         acteCtrl.actes = data;
                     });
