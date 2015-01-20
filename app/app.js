@@ -18,13 +18,13 @@
             this.noActes = function(){
                 return this.actes === undefined;
             }
-
+/*XMLHttpRequest cannot load http://sportsbarcelona.herokuapp.com/. 
+The request was redirected to 'http://sportsbarcelona.herokuapp.com/actes',
+which is disallowed for cross-origin requests that require preflight.*/
             this.listActes = function(){
                 this.loading = true;
                 $http.get(this.GREETINGS_API,{
-                    headers: {
-                        'Access-Control-Request-Headers': 'X-Auth'
-                    }
+                    headers: {'X-Requested-With': 'XMLHttpRequest'}
                 })
                     .success(function (data) {
                         acteCtrl.actes = data;
